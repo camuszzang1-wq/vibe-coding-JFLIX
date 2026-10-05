@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#101010">
+	<title>J-FLIX | 최고 평점 영화</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	<script src="app.js" defer></script>
+</head>
+<body>
+	<header class="topbar">
+		<a class="brand" href="#top" aria-label="J-FLIX 홈">J-FLIX</a>
+		<nav class="main-nav" aria-label="주 메뉴"><a class="nav-active" href="#library">영화</a><a href="#library">최고 평점</a></nav>
+		<button class="settings-button" id="refresh-button" type="button" aria-label="목록 새로고침"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"></path><path d="M5.5 9a7 7 0 0 1 11.8-2L20 12M4 12l2.7 5a7 7 0 0 0 11.8-2"></path></svg><span>새로고침</span></button>
+	</header>
+
+	<main id="top">
+		<section class="hero" id="hero" aria-labelledby="hero-title">
+			<div class="hero-image" id="hero-image"></div><div class="hero-shade"></div>
+			<div class="hero-content">
+				<p class="eyebrow hero-eyebrow"><span class="live-dot"></span> TMDB TOP RATED</p>
+				<h1 id="hero-title">오래 기억될 영화,<br><span>지금 여기에서.</span></h1>
+				<p class="hero-copy" id="hero-copy">전 세계 관객이 높이 평가한 영화들을 한눈에 만나보세요.</p>
+				<div class="hero-actions"><a class="primary-action" href="#library"><span class="play-icon" aria-hidden="true">↓</span> 영화 둘러보기</a><button class="secondary-action" id="hero-trailer" type="button" hidden><span aria-hidden="true">▶</span> 예고편 보기</button></div>
+				<p class="hero-feature" id="hero-feature" hidden></p>
+			</div>
+			<div class="hero-index"><span>01</span><i></i><span>TOP RATED FILMS</span></div>
+		</section>
+
+		<section class="library-section" id="library" aria-labelledby="library-title">
+			<div class="section-topline"><span class="eyebrow">THE HIGHEST RATED</span><span class="section-rule"></span><span class="section-count" id="collection-count">MOVIES / --</span></div>
+			<div class="library-heading">
+				<div><p class="section-kicker">MOVIES · TOP RATED</p><h2 id="library-title">최고 평점 영화</h2></div>
+				<div class="library-controls">
+					<label class="search-box" aria-label="영화 검색"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg><input id="search-input" type="search" placeholder="제목 검색" autocomplete="off"></label>
+					<label class="sort-control"><span>정렬</span><select id="sort-select" aria-label="정렬 기준"><option value="vote_average">평점순</option><option value="popularity">인기순</option><option value="release_date">최신 개봉순</option><option value="vote_count" selected>투표수순</option></select></label>
+				</div>
+			</div>
+			<div class="status-message" id="status-message" role="status" aria-live="polite"><span class="status-mark">···</span><div><strong>최고 평점 영화를 불러오는 중이에요.</strong><p>TMDB에서 영화 목록을 가져오고 있습니다.</p></div></div>
+			<div class="series-grid" id="series-grid" aria-live="polite"></div>
+			<div class="pagination" id="pagination" hidden><button id="previous-page" type="button" aria-label="이전 페이지">←</button><span id="page-indicator">01 / 01</span><button id="next-page" type="button" aria-label="다음 페이지">→</button></div>
+		</section>
+	</main>
+
+	<dialog class="trailer-dialog" id="trailer-dialog" aria-labelledby="video-title">
+		<div class="trailer-heading"><div><p class="eyebrow">NOW PLAYING</p><h2 id="video-title">예고편</h2></div><button class="panel-close" id="video-close" type="button" aria-label="예고편 닫기">×</button></div>
+		<div class="trailer-body">
+			<div class="video-stage">
+				<p id="video-message">예고편을 찾고 있어요.</p>
+				<a class="watch-video-link" id="video-link" href="#" target="_blank" rel="noopener noreferrer" hidden>
+					<img id="video-preview" alt="" aria-hidden="true" hidden>
+					<span class="watch-video-cta"><span aria-hidden="true">▶</span><span id="video-link-label">YouTube 검색 결과에서 예고편 선택</span><span aria-hidden="true">↗</span></span>
+				</a>
+			</div>
+			<div class="video-info">
+				<div class="video-info-head"><h3 id="video-info-title"></h3><span id="video-info-date"></span></div>
+				<h4>줄거리</h4>
+				<p class="video-overview" id="video-overview"></p>
+				<dl class="video-details">
+					<div><dt>장르</dt><dd id="video-genres">-</dd></div>
+					<div><dt>러닝타임</dt><dd id="video-runtime">-</dd></div>
+					<div><dt>출연진</dt><dd id="video-cast">-</dd></div>
+					<div><dt>평점</dt><dd id="video-rating">-</dd></div>
+					<div><dt>인기</dt><dd id="video-popularity">-</dd></div>
+					<div><dt>투표수</dt><dd id="video-votes">-</dd></div>
+				</dl>
+			</div>
+		</div>
+		<div class="video-actions">
+			<a id="video-search-link" href="#" target="_blank" rel="noopener noreferrer">재생이 안 되나요? YouTube에서 다른 영상 찾기 ↗</a>
+			<button id="return-to-dashboard" type="button">대시보드로 돌아가기</button>
+		</div>
+		<p class="video-credit">TRAILER SEARCH · YOUTUBE</p>
+	</dialog>
+	<footer class="footer"><a class="footer-brand" href="#top">J-FLIX</a><span>THE HIGHEST RATED FILMS.</span><span>DATA FROM <strong>TMDB</strong></span></footer>
+</body>
+</html>
